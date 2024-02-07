@@ -4,6 +4,7 @@ from pages.main_page import MainPage
 from pages.order_feed_page import OrderFeedPage
 from locators.order_feed_locators import OrderFeedLocators
 
+
 @allure.feature('Лента заказов')
 class TestOrderFeed:
     @allure.title('Тест появления всплывающего окна с деталями заказа')
@@ -24,8 +25,7 @@ class TestOrderFeed:
         main_page.click_order_feed_button()
         order_feed_page = OrderFeedPage(driver)
         feed_orders = order_feed_page.get_orders_numbers(orders_numbers)
-        for order_number in orders_numbers:
-            assert str(order_number) in feed_orders, 'Заказы пользователя не отображаются в Ленте заказов'
+        assert set(map(str, orders_numbers)).issubset(set(feed_orders))
 
     @allure.title('Тест увеличения счетчика заказов после создания нового заказа')
     @allure.description('Проверка значение счетчика до и после создания нового заказа + общее число')
